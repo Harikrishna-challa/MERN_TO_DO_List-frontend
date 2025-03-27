@@ -2,23 +2,26 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
+// ✅ Define your backend URL here
+const API_URL = "https://mern-to-do-list-backend.onrender.com/todos";  // Update this with your actual backend URL
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
-  // Fetch Todos
+  // ✅ Fetch Todos from Backend
   useEffect(() => {
     axios
-      .get("http://localhost:5000/todos")
+      .get(API_URL)   // Use backend URL
       .then((res) => setTodos(res.data))
       .catch((err) => console.error("❌ Error fetching todos:", err));
   }, []);
 
-  // Add Todo
+  // ✅ Add a new Todo
   const addTodo = () => {
     if (!newTodo.trim()) return;
     axios
-      .post("http://localhost:5000/todos", { text: newTodo })
+      .post(API_URL, { text: newTodo })   // Use backend URL
       .then((res) => {
         setTodos([...todos, res.data]);
         setNewTodo("");
@@ -26,10 +29,10 @@ function App() {
       .catch((err) => console.error("❌ Error adding todo:", err));
   };
 
-  // Delete Todo
+  // ✅ Delete a Todo
   const deleteTodo = (id) => {
     axios
-      .delete(`http://localhost:5000/todos/${id}`)
+      .delete(`${API_URL}/${id}`)   // Use backend URL
       .then(() => setTodos(todos.filter((todo) => todo._id !== id)))
       .catch((err) => console.error("❌ Error deleting todo:", err));
   };
